@@ -1,109 +1,216 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, ArrowRight, Droplets, Sparkles, Shield } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export default function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login
-    navigate('/');
+    setIsLoading(true);
+    // Simulate login delay for premium feel
+    setTimeout(() => {
+      navigate('/');
+    }, 1200);
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
   return (
-    <div className="flex min-h-screen bg-[#101b22] text-slate-100 font-sans">
-      {/* Left Side - Image/Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#0a1116] flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0d93f2]/10 to-transparent"></div>
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="size-48 mb-8 relative">
-            {/* Placeholder for the 3D Logo */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#0d93f2] to-blue-900 rounded-2xl transform rotate-12 opacity-50 blur-xl"></div>
-            <div className="absolute inset-0 bg-gradient-to-bl from-[#0d93f2] to-blue-900 rounded-2xl flex items-center justify-center text-6xl font-black text-white shadow-2xl border border-white/10">
-              LC
+    <div className="flex min-h-screen bg-[#030712] text-slate-100 font-sans selection:bg-[#0d93f2]/30 relative overflow-hidden">
+      
+      {/* Background Image with Slow Zoom Animation */}
+      <div className="absolute inset-0 lg:relative lg:flex lg:w-1/2 overflow-hidden bg-[#030712]">
+        <motion.div 
+          className="absolute inset-0 bg-cover bg-center origin-center"
+          initial={{ scale: 1.15 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 20, ease: "easeOut" }}
+          style={{ 
+            // High-end car wash / detailing image
+            backgroundImage: `url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&q=80&w=2000')`,
+            filter: 'brightness(0.5) contrast(1.1)'
+          }}
+        />
+        
+        {/* Complex Gradient Overlays for Depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/80 to-transparent lg:bg-gradient-to-r lg:from-[#030712] lg:via-[#030712]/60 lg:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/50 via-transparent to-transparent" />
+        
+        {/* Desktop Content */}
+        <div className="hidden lg:flex relative z-10 flex-col justify-between p-16 w-full h-full">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <img src="https://i.imgur.com/Bk68hhX.png" alt="CarWash System" className="h-48 w-auto max-w-[300px] object-contain drop-shadow-2xl" />
             </div>
-          </div>
-          <h1 className="text-4xl font-bold tracking-tight mb-2">LUMER CAR</h1>
-          <p className="text-slate-400 text-lg tracking-widest uppercase text-center">Lava rápido e estética automotiva</p>
-          <p className="mt-12 text-slate-500 text-sm">O futuro da gestão automotiva de luxo.</p>
+          </motion.div>
+
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+            className="max-w-lg"
+          >
+            <motion.div variants={fadeUp} className="flex items-center gap-2 mb-6">
+              <span className="px-3 py-1 rounded-full border border-[#0d93f2]/30 bg-[#0d93f2]/10 text-[#0d93f2] text-xs font-bold tracking-widest uppercase backdrop-blur-md">
+                Sistema Premium
+              </span>
+            </motion.div>
+            <motion.h1 variants={fadeUp} className="text-5xl lg:text-6xl font-light tracking-tight mb-6 leading-[1.1] text-white">
+              A arte do <br/>
+              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#0d93f2] to-cyan-300">
+                detalhamento.
+              </span>
+            </motion.h1>
+            <motion.p variants={fadeUp} className="text-slate-400 text-lg leading-relaxed font-light max-w-md">
+              Gestão inteligente e de alta performance para estúdios de estética automotiva e lava-rápidos de luxo.
+            </motion.p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="flex items-center gap-6 text-xs font-medium tracking-widest uppercase text-slate-500"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles size={14} className="text-[#0d93f2]" />
+              <span>Estética</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield size={14} className="text-[#0d93f2]" />
+              <span>Proteção</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Droplets size={14} className="text-[#0d93f2]" />
+              <span>Lavagem</span>
+            </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 md:px-24 lg:px-32 relative">
-        <div className="w-full max-w-md mx-auto">
-          <div className="mb-10">
-            <h2 className="text-3xl font-bold text-white mb-2">Bem-vindo de volta</h2>
-            <p className="text-slate-400">Insira suas credenciais para acessar o CRM</p>
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-24 xl:px-32 relative z-10 min-h-screen lg:min-h-0 py-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="w-full max-w-md mx-auto bg-[#0a0a0a]/80 lg:bg-transparent p-8 sm:p-10 lg:p-0 rounded-[2rem] backdrop-blur-2xl lg:backdrop-blur-none border border-white/5 lg:border-none shadow-2xl lg:shadow-none relative overflow-hidden"
+        >
+          {/* Subtle glow effect behind form on mobile */}
+          <div className="absolute -top-24 -right-24 size-48 bg-[#0d93f2]/20 rounded-full blur-3xl lg:hidden pointer-events-none" />
+
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex flex-col items-center justify-center gap-4 mb-10 relative z-10">
+            <img src="https://i.imgur.com/Bk68hhX.png" alt="CarWash System" className="h-48 w-auto max-w-[250px] object-contain drop-shadow-2xl" />
+            <span className="px-3 py-1 rounded-full border border-[#0d93f2]/30 bg-[#0d93f2]/10 text-[#0d93f2] text-[10px] font-bold tracking-widest uppercase">
+              Sistema Premium
+            </span>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <div className="mb-10 text-center lg:text-left relative z-10">
+            <h2 className="text-3xl font-light text-white mb-3 tracking-tight">Acesso ao Portal</h2>
+            <p className="text-slate-400 font-light text-sm">Insira suas credenciais para gerenciar a operação.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-5 relative z-10">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">E-mail</label>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="nome@empresa.com"
-                className="w-full px-4 py-3 bg-[#1e293b] border border-[#1e293b] rounded-lg focus:ring-2 focus:ring-[#0d93f2] focus:border-transparent outline-none text-white placeholder:text-slate-500 transition-all"
-                required
-              />
+              <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500 ml-1">E-mail corporativo</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-[#0d93f2] transition-colors">
+                  <Mail size={18} />
+                </div>
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@carwashsystem.com.br"
+                  className="w-full pl-11 pr-4 py-4 bg-[#030712]/50 lg:bg-[#0a0a0a] border border-white/10 rounded-2xl focus:ring-2 focus:ring-[#0d93f2]/50 focus:border-[#0d93f2] outline-none text-white placeholder:text-slate-600 transition-all font-light shadow-inner"
+                  required
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">Senha</label>
-              <div className="relative">
+              <div className="flex items-center justify-between ml-1">
+                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500">Senha de acesso</label>
+                <a href="#" className="text-[11px] font-bold uppercase tracking-wider text-[#0d93f2] hover:text-blue-400 transition-colors">Recuperar</a>
+              </div>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-[#0d93f2] transition-colors">
+                  <Lock size={18} />
+                </div>
                 <input 
                   type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 bg-[#1e293b] border border-[#1e293b] rounded-lg focus:ring-2 focus:ring-[#0d93f2] focus:border-transparent outline-none text-white placeholder:text-slate-500 transition-all pr-12"
+                  className="w-full pl-11 pr-12 py-4 bg-[#030712]/50 lg:bg-[#0a0a0a] border border-white/10 rounded-2xl focus:ring-2 focus:ring-[#0d93f2]/50 focus:border-[#0d93f2] outline-none text-white placeholder:text-slate-600 transition-all font-light shadow-inner"
                   required
                 />
                 <button 
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors p-1"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <div className="relative flex items-center">
-                  <input type="checkbox" className="peer sr-only" />
-                  <div className="size-4 rounded border border-slate-500 bg-[#1e293b] peer-checked:bg-[#0d93f2] peer-checked:border-[#0d93f2] transition-all"></div>
-                  <svg className="absolute inset-0 w-4 h-4 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
-                <span className="text-slate-400 group-hover:text-slate-300 transition-colors">Lembrar de mim</span>
-              </label>
-              <a href="#" className="text-[#0d93f2] hover:text-blue-400 transition-colors font-medium">Esqueceu a senha?</a>
+            <div className="pt-4">
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-4 px-4 bg-gradient-to-r from-[#0d93f2] to-blue-600 text-white font-bold tracking-wide rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed group shadow-[0_0_20px_rgba(13,147,242,0.3)] hover:shadow-[0_0_30px_rgba(13,147,242,0.5)] hover:-translate-y-0.5"
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-3">
+                    <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Autenticando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <span>Entrar no Sistema</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </button>
             </div>
-
-            <button 
-              type="submit"
-              className="w-full py-3 px-4 bg-[#0d93f2] hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg shadow-[#0d93f2]/20 transition-all transform hover:-translate-y-0.5"
-            >
-              Entrar no Dashboard
-            </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-slate-500">
-            Precisa de assistência técnica? <a href="#" className="text-[#0d93f2] hover:underline">Contatar Suporte</a>
-          </p>
-        </div>
+          <div className="mt-10 pt-6 border-t border-white/5 flex flex-col items-center gap-4 relative z-10">
+            <p className="text-[11px] text-slate-500 font-medium uppercase tracking-widest text-center">
+              Acesso restrito e monitorado
+            </p>
+          </div>
+        </motion.div>
 
-        <div className="absolute bottom-8 left-0 right-0 text-center text-xs text-slate-600">
-          © 2024 Lumer Car CRM. Todos os direitos reservados. Acesso Seguro na Nuvem.
+        <div className="absolute bottom-6 left-0 right-0 text-center text-[10px] text-slate-600 uppercase tracking-widest z-10 font-medium">
+          © {new Date().getFullYear()} CarWash System • Gestão Total
         </div>
       </div>
     </div>

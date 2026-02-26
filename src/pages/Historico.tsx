@@ -5,7 +5,7 @@ import { getAppointments, saveAppointments, formatDateBr, getInitials, getServic
 export default function Historico() {
   const [records, setRecords] = useState<any[]>([]);
   const [servicesList, setServicesList] = useState<any[]>([]);
-  const [filterService, setFilterService] = useState('Todos os Tipos');
+  const [filterService, setFilterService] = useState('Todos os Serviços');
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -93,7 +93,7 @@ export default function Historico() {
   const historyRecords = records.filter(r => r.status === 'Serviço Finalizado' || r.status === 'Cancelado');
   
   const filteredRecords = historyRecords.filter(record => {
-    if (filterService !== 'Todos os Tipos' && record.service !== filterService) return false;
+    if (filterService !== 'Todos os Serviços' && record.service !== filterService) return false;
     return true;
   });
 
@@ -121,7 +121,7 @@ export default function Historico() {
             onChange={(e) => setFilterService(e.target.value)}
             className="w-full bg-[#1e293b] border border-[#1e293b] rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#0d93f2] text-white outline-none appearance-none cursor-pointer"
           >
-            <option value="Todos os Tipos">Todos os Tipos</option>
+            <option value="Todos os Serviços">Todos os Serviços</option>
             {servicesList.map(service => (
               <option key={service.id} value={service.title}>{service.title}</option>
             ))}
